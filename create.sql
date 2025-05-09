@@ -54,7 +54,7 @@ CREATE TABLE movie
 		movie_id INT NOT NULL PRIMARY KEY IDENTITY,
 		movie_name NVARCHAR (50) NOT NULL UNIQUE,
 		release_date DATE NOT NULL,
-		movie_duration SMALLINT NOT NULL,
+		movie_duration SMALLINT NULL,
 		movie_blurb VARCHAR(1024) NULL,
 		rating_id TINYINT NOT NULL REFERENCES rating(rating_id),
 
@@ -157,6 +157,7 @@ CREATE TABLE review
 	If required, change the table and column names to match those in your database.
 	You may use NULL instead of 0 for the first three classifications if preferred, but will need to account for this in certain queries if so.
 	 */
+
 INSERT INTO
 	rating (rating, rating_name, min_age)
 VALUES
