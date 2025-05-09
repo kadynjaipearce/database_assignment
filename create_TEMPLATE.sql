@@ -27,54 +27,50 @@ END GO PRINT 'Creating database.';
 
 CREATE DATABASE theatre;
 
-USE theatre;
+GO USE theatre;
 
-GO
-
-PRINT 'Creating rating table...';
+GO PRINT 'Creating rating table...';
 
 CREATE TABLE rating 
-(
-	rating_id		TINYINT NOT NULL PRIMARY KEY IDENTITY,
-	rating_symbol	CHAR(2)	NOT NULL UNIQUE,
-	rating_name		VARCHAR(25)	NOT NULL UNIQUE,
-	minimum_age		TINYINT NOT NULL DEFAULT (0)
-)
+	(
+		rating_id TINYINT NOT NULL PRIMARY KEY IDENTITY,
+		rating_symbol CHAR(2) NOT NULL UNIQUE,
+		rating_name VARCHAR(25) NOT NULL UNIQUE,
+		minimum_age TINYINT NOT NULL DEFAULT (0)
+	)
 
 CREATE TABLE genre 
-(
-	genre_id		TINYINT NOT NULL PRIMARY KEY IDENTITY,
-	genre_name		VARCHAR(25) NOT NULL UNIQUE
-)
+	(
+		genre_id TINYINT NOT NULL PRIMARY KEY IDENTITY,
+		genre_name VARCHAR(25) NOT NULL UNIQUE
+	)
 
-CREATE TABLE movie
-(
-	movie_id		INT NOT NULL PRIMARY KEY IDENTITY,
-	movie_name		NVARCHAR(50) NOT NULL UNIQUE,
-	release_year		INT NOT NULL CHECK (release_year >= 1900 AND release_year <= YEAR(GETDATE())),
-	rating_id		TINYINT NOT NULL,
-	genre_id		TINYINT NOT NULL,
-	duration		INT NOT NULL CHECK (duration > 0),
-	director_name	VARCHAR(50) NOT NULL,
-	FOREIGN KEY (rating_id) REFERENCES rating(rating_id),
-	FOREIGN KEY (genre_id) REFERENCES genre(genre_id)
-)
+CREATE TABLE movie 
+	(
+		movie_id INT NOT NULL PRIMARY KEY IDENTITY,
+		movie_name NVARCHAR (50) NOT NULL UNIQUE,
+		release_date DATE NOT NULL,
+		movie_duration SMALLINT NOT NULL,
+		movie_blurb VARCHAR(1024) NULL,
+		rating_id TINYINT NOT NULL REFERENCES rating(rating_id),
 
-/*	Database Population Statements
-Following the SQL statements to create your database and its tables, you must include statements to populate the database with sufficient test data.
-You are only required to populate the database with enough data to make sure that all views and queries return meaningful results.
-
-You can start working on your views and queries and write INSERT statements as needed for testing as you go.
-The final create.sql should be able to create your database and populate it with enough data to make sure that all views and queries return meaningful results.
-
-Data has been provided for some of the tables.
-Adapt the INSERT statements as needed, and write your own INSERT statements for the remaining tables.
- */
-/*	The following statement inserts the details of 5 classification ratings into a table named "rating".
-It specifies values for columns named "rating", "rating_name" and "min_age".
-If required, change the table and column names to match those in your database.
-You may use NULL instead of 0 for the first three classifications if preferred, but will need to account for this in certain queries if so.
- */
+		UNIQUE (movie_name, release_date)
+	)
+	/*	Database Population Statements
+	Following the SQL statements to create your database and its tables, you must include statements to populate the database with sufficient test data.
+	You are only required to populate the database with enough data to make sure that all views and queries return meaningful results.
+	
+	You can start working on your views and queries and write INSERT statements as needed for testing as you go.
+	The final create.sql should be able to create your database and populate it with enough data to make sure that all views and queries return meaningful results.
+	
+	Data has been provided for some of the tables.
+	Adapt the INSERT statements as needed, and write your own INSERT statements for the remaining tables.
+	 */
+	/*	The following statement inserts the details of 5 classification ratings into a table named "rating".
+	It specifies values for columns named "rating", "rating_name" and "min_age".
+	If required, change the table and column names to match those in your database.
+	You may use NULL instead of 0 for the first three classifications if preferred, but will need to account for this in certain queries if so.
+	 */
 INSERT INTO
 	rating (rating, rating_name, min_age)
 VALUES
