@@ -80,7 +80,7 @@ PRINT 'Creating cinema_type table...';
 
 CREATE TABLE cinema_type 
 	(
-		type_id INT NOT NULL PRIMARY KEY IDENTITY,
+		type_id TINYINT NOT NULL PRIMARY KEY IDENTITY,
 		type_name VARCHAR(25) NOT NULL UNIQUE
 	)
 
@@ -142,7 +142,7 @@ CREATE TABLE review
 		review_id INT NOT NULL PRIMARY KEY IDENTITY,
 		review_text VARCHAR(1024) NOT NULL,
 		review_date SMALLDATETIME NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-		star_rating NUMERIC(2,1) NOT NULL CHECK (rating BETWEEN 1 AND 5),
+		star_rating NUMERIC(2,1) NOT NULL CHECK (star_rating BETWEEN 1 AND 5),
 		customer_id INT NOT NULL REFERENCES customer(customer_id),
 		movie_id INT NOT NULL REFERENCES movie(movie_id)
 	)
