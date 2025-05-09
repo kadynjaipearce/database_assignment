@@ -103,6 +103,27 @@ CREATE TABLE customer
 		CHECK (referrer_id <> customer_id),
 	) 
 
+CREATE TABLE ticket
+	(
+		ticket_id INT NOT NULL PRIMARY KEY IDENTITY,
+		seat_number CHAR(3) NOT NULL,
+		customer_id INT NULL REFERENCES customer(customer_id),
+		session_id INT NOT NULL REFERENCES session(session_id),
+
+		CHECK (seat_number LIKE '[A-Z][0-9][0-9]'),
+		UNIQUE (session_id, seat_number)
+	)
+
+CREATE TABLE review
+	(
+		review_id INT NOT NULL PRIMARY KEY IDENTITY,
+		review_text VARCHAR(1024) NOT NULL,
+		review_date SMALLDATETIME NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+		star_rating NUMERIC(2,1) NOT NULL CHECK (rating BETWEEN 1 AND 5),
+		customer_id INT NOT NULL REFERENCES customer(customer_id),
+		movie_id INT NOT NULL REFERENCES movie(movie_id),
+	)
+
 	/*	Database Population Statements
 	Following the SQL statements to create your database and its tables, you must include statements to populate the database with sufficient test data.
 	You are only required to populate the database with enough data to make sure that all views and queries return meaningful results.
