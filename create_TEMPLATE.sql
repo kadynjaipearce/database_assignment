@@ -27,6 +27,10 @@ END GO PRINT 'Creating database.';
 
 CREATE DATABASE theatre;
 
+USE theatre;
+
+GO
+
 PRINT 'Creating rating table...';
 
 CREATE TABLE rating 
@@ -43,8 +47,19 @@ CREATE TABLE genre
 	genre_name		VARCHAR(25) NOT NULL UNIQUE
 )
 
+CREATE TABLE movie
+(
+	movie_id		INT NOT NULL PRIMARY KEY IDENTITY,
+	movie_name		NVARCHAR(50) NOT NULL UNIQUE,
+	release_year		INT NOT NULL CHECK (release_year >= 1900 AND release_year <= YEAR(GETDATE())),
+	rating_id		TINYINT NOT NULL,
+	genre_id		TINYINT NOT NULL,
+	duration		INT NOT NULL CHECK (duration > 0),
+	director_name	VARCHAR(50) NOT NULL,
+	FOREIGN KEY (rating_id) REFERENCES rating(rating_id),
+	FOREIGN KEY (genre_id) REFERENCES genre(genre_id)
+)
 
-GO
 /*	Database Population Statements
 Following the SQL statements to create your database and its tables, you must include statements to populate the database with sufficient test data.
 You are only required to populate the database with enough data to make sure that all views and queries return meaningful results.
