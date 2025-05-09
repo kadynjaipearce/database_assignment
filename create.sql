@@ -11,25 +11,30 @@ Adapt the code at the start of the �company.sql� file (Module 5) to implemen
 See the brief for further information. 
  */
 -- Write your creation script here
-IF DB_ID ('theatre') IS NOT NULL BEGIN PRINT 'Database exists - dropping.';
+IF DB_ID ('theatre') IS NOT NULL 
 
-USE master;
+	BEGIN 
+		PRINT 'Database exists - dropping.';
 
-ALTER DATABASE theatre
-SET
-	SINGLE_USER
-WITH
-	ROLLBACK IMMEDIATE;
+		USE master;
+		ALTER DATABASE theatre SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 
-DROP DATABASE theatre;
+		DROP DATABASE theatre;
 
-END GO PRINT 'Creating database.';
+	END 
+GO 
+
+PRINT 'Creating database.';
 
 CREATE DATABASE theatre;
 
-GO USE theatre;
+GO 
 
-GO PRINT 'Creating rating table...';
+USE theatre;
+
+GO
+
+PRINT 'Creating rating table...';
 
 CREATE TABLE rating 
 	(
@@ -39,7 +44,7 @@ CREATE TABLE rating
 		minimum_age TINYINT NOT NULL DEFAULT (0)
 	)
 
-GO PRINT 'Creating genre table...';
+PRINT 'Creating genre table...';
 
 CREATE TABLE genre 
 	(
@@ -47,7 +52,7 @@ CREATE TABLE genre
 		genre_name VARCHAR(25) NOT NULL UNIQUE
 	)
 
-GO PRINT 'Creating movie table...';
+PRINT 'Creating movie table...';
 
 CREATE TABLE movie 
 	(
@@ -61,7 +66,7 @@ CREATE TABLE movie
 		UNIQUE (movie_name, release_date)
 	)
 
-GO PRINT 'Creating movie_genre table...';
+PRINT 'Creating movie_genre table...';
 
 CREATE TABLE movie_genre 
 	(
@@ -71,7 +76,7 @@ CREATE TABLE movie_genre
 		PRIMARY KEY (movie_id, genre_id)
 	)
 
-GO PRINT 'Creating cinema_type table...';
+PRINT 'Creating cinema_type table...';
 
 CREATE TABLE cinema_type 
 	(
@@ -79,7 +84,7 @@ CREATE TABLE cinema_type
 		type_name VARCHAR(25) NOT NULL UNIQUE
 	)
 
-GO PRINT 'Creating cinema table...';
+PRINT 'Creating cinema table...';
 
 CREATE TABLE cinema
 	(
@@ -90,7 +95,7 @@ CREATE TABLE cinema
 		type_id TINYINT NOT NULL REFERENCES cinema_type(type_id)
 	)
 
-GO PRINT 'Creating session table...';
+PRINT 'Creating session table...';
 
 CREATE TABLE session
 	(
@@ -101,7 +106,7 @@ CREATE TABLE session
 		movie_id INT NOT NULL REFERENCES movie(movie_id)
 	)
 
-GO PRINT 'Creating customer table...';
+PRINT 'Creating customer table...';
 
 CREATE TABLE customer
 	(
@@ -117,7 +122,7 @@ CREATE TABLE customer
 		CHECK (referrer_id <> customer_id)
 	) 
 
-GO PRINT 'Creating ticket table...';
+PRINT 'Creating ticket table...';
 
 CREATE TABLE ticket
 	(
@@ -130,7 +135,7 @@ CREATE TABLE ticket
 		UNIQUE (session_id, seat_number)
 	)
 
-GO PRINT 'Creating review table...';
+PRINT 'Creating review table...';
 
 CREATE TABLE review
 	(
