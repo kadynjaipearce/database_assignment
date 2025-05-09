@@ -1,5 +1,5 @@
--- Student Number(s):  
--- Student Name(s):    
+-- Student Number(s): 10687576, 10651220 
+-- Student Name(s):   Timothy Tolj, Kadyn Pearce
 
 /*	Database Creation & Population Script (6 marks)
 	Write a script to create the database you designed in Task 1 (incorporating any changes you have made since then).  
@@ -7,7 +7,7 @@
 	Include any suitable default values and any necessary/appropriate CHECK or UNIQUE constraints.
 
 	Make sure this script can be run multiple times without resulting in any errors (hint: drop the database if it exists before trying to create it).
-	Adapt the code at the start of the “company.sql” file (Module 5) to implement this.  
+	Adapt the code at the start of the ï¿½company.sqlï¿½ file (Module 5) to implement this.  
 
 	See the brief for further information. 
 */
