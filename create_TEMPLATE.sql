@@ -11,21 +11,21 @@ Adapt the code at the start of the �company.sql� file (Module 5) to implemen
 See the brief for further information. 
  */
 -- Write your creation script here
-IF DB_ID ('theater') IS NOT NULL BEGIN PRINT 'Database exists - dropping.';
+IF DB_ID ('theatre') IS NOT NULL BEGIN PRINT 'Database exists - dropping.';
 
 USE master;
 
-ALTER DATABASE theater
+ALTER DATABASE theatre
 SET
 	SINGLE_USER
 WITH
 	ROLLBACK IMMEDIATE;
 
-DROP DATABASE theater;
+DROP DATABASE theatre;
 
 END GO PRINT 'Creating database.';
 
-CREATE DATABASE theater;
+CREATE DATABASE theatre;
 
 PRINT 'Creating rating table...';
 
@@ -36,6 +36,13 @@ CREATE TABLE rating
 	rating_name		VARCHAR(25)	NOT NULL UNIQUE,
 	minimum_age		TINYINT NOT NULL DEFAULT (0)
 )
+
+CREATE TABLE genre 
+(
+	genre_id		TINYINT NOT NULL PRIMARY KEY IDENTITY,
+	genre_name		VARCHAR(25) NOT NULL UNIQUE
+)
+
 
 GO
 /*	Database Population Statements
