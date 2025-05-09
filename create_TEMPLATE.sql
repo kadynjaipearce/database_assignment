@@ -80,6 +80,29 @@ CREATE TABLE cinema
 		type_id TINYINT NOT NULL REFERENCES cinema_type(type_id),
 	)
 
+CREATE TABLE session
+	(
+		session_id INT NOT NULL PRIMARY KEY IDENTITY,
+		date_time SMALLDATETIME NOT NULL,
+		ticket_cost SMALLMONEY NOT NULL,
+		cinema_id TINYINT NOT NULL REFERENCES cinema(cinema_id),
+		movie_id INT NOT NULL REFERENCES movie(movie_id),
+	)
+
+CREATE TABLE customer
+	(
+		customer_id INT NOT NULL PRIMARY KEY IDENTITY,
+		user_email VARCHAR(50) NOT NULL UNIQUE,
+		pass_hash VARCHAR(128) NOT NULL,
+		first_name VARCHAR(50) NOT NULL,
+		last_name VARCHAR(50) NOT NULL,
+		birth_date DATE NOT NULL,
+		referrer_id INT NULL REFERENCES customer(customer_id),
+
+		CHECK (birth_date <= DATEADD(YEAR, -12, GETDATE())),
+		CHECK (referrer_id <> customer_id),
+	) 
+
 	/*	Database Population Statements
 	Following the SQL statements to create your database and its tables, you must include statements to populate the database with sufficient test data.
 	You are only required to populate the database with enough data to make sure that all views and queries return meaningful results.
