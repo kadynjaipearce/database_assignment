@@ -39,11 +39,15 @@ CREATE TABLE rating
 		minimum_age TINYINT NOT NULL DEFAULT (0)
 	)
 
+GO PRINT 'Creating genre table...';
+
 CREATE TABLE genre 
 	(
 		genre_id TINYINT NOT NULL PRIMARY KEY IDENTITY,
 		genre_name VARCHAR(25) NOT NULL UNIQUE
 	)
+
+GO PRINT 'Creating movie table...';
 
 CREATE TABLE movie 
 	(
@@ -57,6 +61,8 @@ CREATE TABLE movie
 		UNIQUE (movie_name, release_date)
 	)
 
+GO PRINT 'Creating movie_genre table...';
+
 CREATE TABLE movie_genre 
 	(
 		movie_id INT NOT NULL REFERENCES movie(movie_id),
@@ -65,11 +71,15 @@ CREATE TABLE movie_genre
 		PRIMARY KEY (movie_id, genre_id)
 	)
 
+GO PRINT 'Creating cinema_type table...';
+
 CREATE TABLE cinema_type 
 	(
 		type_id INT NOT NULL PRIMARY KEY IDENTITY,
 		type_name VARCHAR(25) NOT NULL UNIQUE
 	)
+
+GO PRINT 'Creating cinema table...';
 
 CREATE TABLE cinema
 	(
@@ -77,8 +87,10 @@ CREATE TABLE cinema
 		cinema_name VARCHAR(25) NOT NULL UNIQUE,
 		row_total TINYINT NOT NULL,
 		seat_total TINYINT NOT NULL,
-		type_id TINYINT NOT NULL REFERENCES cinema_type(type_id),
+		type_id TINYINT NOT NULL REFERENCES cinema_type(type_id)
 	)
+
+GO PRINT 'Creating session table...';
 
 CREATE TABLE session
 	(
@@ -86,8 +98,10 @@ CREATE TABLE session
 		date_time SMALLDATETIME NOT NULL,
 		ticket_cost SMALLMONEY NOT NULL,
 		cinema_id TINYINT NOT NULL REFERENCES cinema(cinema_id),
-		movie_id INT NOT NULL REFERENCES movie(movie_id),
+		movie_id INT NOT NULL REFERENCES movie(movie_id)
 	)
+
+GO PRINT 'Creating customer table...';
 
 CREATE TABLE customer
 	(
@@ -100,8 +114,10 @@ CREATE TABLE customer
 		referrer_id INT NULL REFERENCES customer(customer_id),
 
 		CHECK (birth_date <= DATEADD(YEAR, -12, GETDATE())),
-		CHECK (referrer_id <> customer_id),
+		CHECK (referrer_id <> customer_id)
 	) 
+
+GO PRINT 'Creating ticket table...';
 
 CREATE TABLE ticket
 	(
@@ -114,6 +130,8 @@ CREATE TABLE ticket
 		UNIQUE (session_id, seat_number)
 	)
 
+GO PRINT 'Creating review table...';
+
 CREATE TABLE review
 	(
 		review_id INT NOT NULL PRIMARY KEY IDENTITY,
@@ -121,7 +139,7 @@ CREATE TABLE review
 		review_date SMALLDATETIME NOT NULL DEFAULT (CURRENT_TIMESTAMP),
 		star_rating NUMERIC(2,1) NOT NULL CHECK (rating BETWEEN 1 AND 5),
 		customer_id INT NOT NULL REFERENCES customer(customer_id),
-		movie_id INT NOT NULL REFERENCES movie(movie_id),
+		movie_id INT NOT NULL REFERENCES movie(movie_id)
 	)
 
 	/*	Database Population Statements
