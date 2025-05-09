@@ -56,6 +56,21 @@ CREATE TABLE movie
 
 		UNIQUE (movie_name, release_date)
 	)
+
+CREATE TABLE movie_genre 
+	(
+		movie_id INT NOT NULL REFERENCES movie(movie_id),
+		genre_id TINYINT NOT NULL REFERENCES genre(genre_id),
+
+		PRIMARY KEY (movie_id, genre_id)
+	)
+
+CREATE TABLE cinema_type 
+	(
+		type_id INT NOT NULL PRIMARY KEY IDENTITY,
+		type_name VARCHAR(25) NOT NULL UNIQUE
+	)
+
 	/*	Database Population Statements
 	Following the SQL statements to create your database and its tables, you must include statements to populate the database with sufficient test data.
 	You are only required to populate the database with enough data to make sure that all views and queries return meaningful results.
