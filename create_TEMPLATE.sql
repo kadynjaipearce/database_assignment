@@ -71,6 +71,15 @@ CREATE TABLE cinema_type
 		type_name VARCHAR(25) NOT NULL UNIQUE
 	)
 
+CREATE TABLE cinema
+	(
+		cinema_id TINYINT NOT NULL PRIMARY KEY IDENTITY,
+		cinema_name VARCHAR(25) NOT NULL UNIQUE,
+		row_total TINYINT NOT NULL,
+		seat_total TINYINT NOT NULL,
+		type_id TINYINT NOT NULL REFERENCES cinema_type(type_id),
+	)
+
 	/*	Database Population Statements
 	Following the SQL statements to create your database and its tables, you must include statements to populate the database with sufficient test data.
 	You are only required to populate the database with enough data to make sure that all views and queries return meaningful results.
