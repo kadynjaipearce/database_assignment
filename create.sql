@@ -77,7 +77,7 @@ CREATE TABLE movie_genre
 	)
 
 PRINT 'Creating cinema_type table...';
-
+ 
 CREATE TABLE cinema_type 
 	(
 		type_id TINYINT NOT NULL PRIMARY KEY IDENTITY,
