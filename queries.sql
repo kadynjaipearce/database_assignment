@@ -64,3 +64,11 @@ ORDER BY
 
 
 
+SELECT 
+    session_id, s.date_time, c.cinema_name, c.row_total, c.seat_total
+FROM ticked AS t 
+INNER JOIN session AS s ON t.session_id = s.session_id
+INNER JOIN cinema AS c ON s.cinema_id = c.cinema_id
+
+WHERE s.date_time > GETDATE() AND 
+ORDER BY s.date_time;
