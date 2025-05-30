@@ -70,5 +70,44 @@ FROM ticked AS t
 INNER JOIN session AS s ON t.session_id = s.session_id
 INNER JOIN cinema AS c ON s.cinema_id = c.cinema_id
 
-WHERE s.date_time > GETDATE() AND 
+WHERE s.date_time > GETDATE() AND CHARINDEX(UPPER(RIGHT), "ABCDEFGHIJKLMNOPQRSTUVWXYZ") > row_total
 ORDER BY s.date_time;
+
+
+-- ============================================================================
+-- Query: Customer Purchase and Review Summary
+--
+-- Description:
+--   Retrieves a summary of each customer's activity, including their formatted
+--   name, number of tickets purchased, total amount spent, number of reviews
+--   left, and the date of their first session attended.
+--
+-- Columns:
+--   customer_id        : Unique identifier for the customer.
+--   name               : Customer's first name and initial of last name (capitalized).
+--   tickets_purchased  : Total number of distinct tickets purchased by the customer.
+--   total_spent        : Total amount spent by the customer on tickets.
+--   reviews_written       : Number of distinct reviews left by the customer.
+--   first_session      : Date of the customer's first session attended.
+--
+-- Joins:
+--   - LEFT JOIN ticket: Links customers to their tickets.
+--   - LEFT JOIN review: Links customers to their reviews.
+--   - LEFT JOIN session: Links tickets to session details.
+--
+-- Grouping:
+--   Groups results by customer to aggregate their activity.
+-- ============================================================================
+
+SELECT 
+    c.customer_id,
+    CONCAT(c.first_name, " ", UPPER(LEFT(c.last_name, 1)), ".") AS 'name',
+    COUNT(DISTINCT t.ticket_id) AS 'tickets_purchased',
+    SUM(s.ticket_cost) AS 'total_spent', 
+    COUNT(DISTINCT r.review_id) AS 'reviews_written',
+    MIN(s.session_date) AS 'first_session'
+FROM customer AS c 
+LEFT JOIN ticket AS t ON c.customer_id = t.customer_id
+LEFT JOIN review AS r ON r.customer_id = c.customer_id
+LEFT JOIN session AS s ON t.session_id = s.session_id
+GROUP BY c.customer_id, c.first_name, c.last_name;
